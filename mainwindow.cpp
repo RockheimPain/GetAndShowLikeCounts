@@ -26,6 +26,7 @@ void MainWindow::init()
     connect(&timerThread, SIGNAL(finished()), tmrReq, SLOT(deleteLater()));
     connect(this, SIGNAL(operate()), tmrReq, SLOT(sendRequest()));
     connect(tmrReq, SIGNAL(requestTime()), this, SLOT(updateLikeCount()));
+    connect(this, SIGNAL(stopTimer(bool)), tmrReq, SLOT(setFlag(bool)));
 
     timerThread.start();
     emit operate();
@@ -36,8 +37,10 @@ MainWindow::~MainWindow()
 {
     delete ui;
 
+    emit stopTimer(false);
+
     timerThread.quit();
-    timerThread.wait();
+    timerThread.deleteLater();
 }
 
 void MainWindow::on_ln_url_textChanged(const QString &url)

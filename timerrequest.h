@@ -16,6 +16,11 @@ signals:
 
 private slots:
     void sendRequest();
+
+    void setFlag(bool flag);
+
+private:
+    bool flag;
 };
 
 #endif // TIMERREQUEST_H
