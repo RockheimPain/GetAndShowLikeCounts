@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::init()
 {
-    testVal = 0;
     currURL = "";
 
     ui->setupUi(this);
@@ -26,7 +25,6 @@ void MainWindow::init()
     connect(&timerThread, SIGNAL(finished()), tmrReq, SLOT(deleteLater()));
     connect(this, SIGNAL(operate()), tmrReq, SLOT(sendRequest()));
     connect(tmrReq, SIGNAL(requestTime()), this, SLOT(updateLikeCount()));
-    connect(this, SIGNAL(stopTimer(bool)), tmrReq, SLOT(setFlag(bool)));
 
     timerThread.start();
     emit operate();
@@ -36,8 +34,6 @@ void MainWindow::init()
 MainWindow::~MainWindow()
 {
     delete ui;
-
-    emit stopTimer(false);
 
     timerThread.quit();
     timerThread.deleteLater();
@@ -88,7 +84,6 @@ void MainWindow::managerFinished(QNetworkReply *reply) {
 void MainWindow::updateLikeCount()
 {
     if (!currURL.isEmpty()) {
-        qDebug() << ++testVal;
 
         QNetworkRequest request((QUrl(currURL)));
         reply = manager->get(request);

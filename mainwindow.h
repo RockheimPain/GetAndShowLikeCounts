@@ -33,8 +33,6 @@ public:
 signals:
     void operate();
 
-    void stopTimer(bool flag);
-
 private slots:
     void on_ln_url_textChanged(const QString &arg1);
 
@@ -54,6 +52,5 @@ private:
     TimerRequest *tmrReq;
     QThread timerThread;
 
-    int testVal;
 };
 #endif // MAINWINDOW_H
